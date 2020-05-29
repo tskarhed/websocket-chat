@@ -34,8 +34,6 @@ ws.onmessage = function ({ data }) {
   try {
     data = JSON.parse(data);
     const { type, payload } = data;
-    console.log(data);
-    console.log(type);
     switch (type) {
       case "ping":
         console.log("ping received");
