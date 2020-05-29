@@ -10,6 +10,18 @@ messageInput.addEventListener("keyup", (event) => {
   }
 });
 
+/*!
+ * Sanitize and encode all HTML in a user-submitted string
+ * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
+ * @param  {String} str  The user-submitted string
+ * @return {String} str  The sanitized string
+ */
+let sanitizeHTML = function (str) {
+  var temp = document.createElement("div");
+  temp.textContent = str;
+  return temp.innerHTML;
+};
+
 let ws;
 
 try {
@@ -45,7 +57,9 @@ ws.onmessage = function ({ data }) {
       default:
         const div = document.createElement("div");
         div.className = "message_container";
-        div.innerHTML = `<span class="time">${new Date().toLocaleTimeString()}:</span> <span class="message">${payload}</span>`;
+        div.innerHTML = `<span class="time">${new Date().toLocaleTimeString()}:</span> <span class="message">${sanitizeHTML(
+          payload
+        )}</span>`;
         messageContainer.prepend(div);
         return;
     }
