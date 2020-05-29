@@ -6,7 +6,7 @@ messageInput.addEventListener("keyup", (event) => {
   if (event.key === "Enter") {
     const message = event.target.value;
     event.target.value = "";
-    sendMessage(message);
+    sendMessage(sanitizeHTML(message));
   }
 });
 
