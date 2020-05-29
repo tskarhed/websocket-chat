@@ -6,7 +6,7 @@ app.get('/', (req, res) => res.send('Who am I?'));
 app.get('/test', (req, res) => {
     res.set('X-Custom-header', "I'm a teapot damnit!");
     res.status(418);
-    return res.send();
+    return res.send('Hello');
 });
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
