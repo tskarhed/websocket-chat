@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const app = express();
 const port = 3000;
 
@@ -27,7 +28,7 @@ wss.broadcast = function broadcast(data) {
   wss.clients.forEach((client) => {
     if (client.readyState === client.OPEN) {
       try {
-        ws.send(JSON.stringify(data));
+        client.send(JSON.stringify(data));
       } catch (err) {
         console.log(err);
       }
@@ -39,7 +40,12 @@ wss.on("connection", function connection(ws) {
   console.log("client connections: ", ++clientCounter);
   wss.broadcast({ type: "clients", payload: clientCounter });
   ws.on("message", function incoming(message) {
-    wss.broadcast({ type: "message", payload: message });
+    const { payload, type } = JSON.parse(message);
+    if (type === "message") {
+      wss.broadcast({ type: "message", payload: payload });
+    } else {
+      console.log(type, payload);
+    }
   });
 
   ws.on("close", function close() {
@@ -53,7 +59,7 @@ wss.on("connection", function connection(ws) {
   });
 });
 
-const pingPayload = JSON.stringify({ type: "ping" });
+const pingPayload = { type: "ping" };
 
 //Keep connection alive
 let pingInterval = setInterval(() => {
