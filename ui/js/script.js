@@ -1,6 +1,6 @@
 const messageInput = document.querySelector("#input");
 
-const HOST = "161.35.193.220";
+const HOST = "playground.skarhed.com";
 
 messageInput.addEventListener("keyup", (event) => {
   if (event.key === "Enter") {
@@ -17,7 +17,7 @@ try {
   if (["localhost", "127.0.0.1", ""].includes(location.hostname)) {
     ws = new WebSocket(`ws://localhost:3000`);
   } else {
-    ws = new WebSocket(`ws://${HOST}`);
+    ws = new WebSocket(`wss://${HOST}`);
   }
 } catch (e) {
   console.log("Web socket init error", e);
